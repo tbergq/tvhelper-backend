@@ -75,5 +75,5 @@ function login(username, password) {
 }
 
 function signToken(id) {
-  return jwt.sign({id: id}, secret, {expiresIn: '5h'});
+  return jwt.sign({id: id}, secret, {expiresIn: '100h'});
 }

@@ -6,10 +6,12 @@
 
 var path = require('path');
 
-module.exports = function(app) {
+module.exports = function (app) {
 
   // Insert routes below
   app.use('/api/auth', require('./api/auth'));
+  app.use('/api/users', require('./api/user'));
+  app.use('/api/favorites', require('./api/favorite'));
 
 
   //app.use('/auth', require('./auth'));
