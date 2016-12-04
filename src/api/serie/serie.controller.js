@@ -21,7 +21,8 @@ function episodes(req, res) {
 }
 
 function search(req, res) {
-  return HttpService.call(HOST, '/search/shows?q=' + req.params.searchText)
+  console.log('search is ', encodeURI(req.params.searchText));
+  return HttpService.call(HOST, '/search/shows?q=' + encodeURI(req.params.searchText))
     .then(function (result) {
       return res.status(200).json(result);
     })
