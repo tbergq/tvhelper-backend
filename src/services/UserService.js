@@ -62,7 +62,7 @@ function login(username, password) {
     })
     .then(function (user) {
       if (passwordHash.verify(password, user.password)) {
-        return signToken(user.id);
+        return signToken(user);
       }
       else {
         throw new Error('Wrong username or password');
@@ -74,6 +74,6 @@ function login(username, password) {
     })
 }
 
-function signToken(id) {
-  return jwt.sign({id: id}, secret, {expiresIn: '100h'});
+function signToken(user) {
+  return jwt.sign({id: user.id, username : user.username}, secret, {expiresIn: '100h'});
 }
