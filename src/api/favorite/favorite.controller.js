@@ -1,4 +1,7 @@
-var Favorites = require('../../models/favorites.model');
+var Favorites   = require('../../models/favorites.model');
+var http        = require('http');
+var Promise     = require('promise');
+var HttpService = require('../../services/HttpService');
 
 exports.create     = create;
 exports.destroy    = destroy;
@@ -34,16 +37,27 @@ function destroy(req, res) {
     });
 }
 
+
 function index(req, res) {
+  console.log('testing');
   return Favorites.findAll({
       where: {
         userId: req.user.id
       }
     })
-    .then(function (result) {
-      return res.status(201).json(result);
+    .then(function (favorites) {
+      var promises = [];
+
+      for(var i = 0; i < favorites.length; i++) {
+        promises.push(HttpService.call('api.tvmaze.com', '/shows/' + favorites[i].dataValues.serieId + '?embed[]=episodes'))
+      }
+      return Promise.all(promises);
+    })
+    .then(function (results) {
+      return res.status(200).json(results);
     })
     .catch(function (err) {
+      console.log('err', err.stack);
       return res.status(500).send(err);
     });
 }
