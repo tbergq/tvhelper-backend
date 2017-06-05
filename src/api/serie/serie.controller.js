@@ -32,7 +32,7 @@ function search(req, res) {
 }
 
 function show(req, res) {
-  return HttpService.call(HOST, '/shows/' + req.params.serieId + '?embed[]=episodes')
+  return HttpService.call(HOST, '/shows/' + req.params.serieId + '?embed[]=episodes&embed[]=cast')
     .then(function (result) {
       return res.status(200).json(result);
     })
